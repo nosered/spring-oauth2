@@ -6,6 +6,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -53,9 +54,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity httpSecurity) throws Exception {
 		httpSecurity
 			.authorizeRequests()
-			.antMatchers("h2-console").permitAll()
+			.antMatchers(HttpMethod.POST, "/users").permitAll()
+			.antMatchers(HttpMethod.GET, "/users/**").permitAll()
 			.anyRequest().authenticated()
 			.and()
-			.formLogin().permitAll();
+			.formLogin().permitAll()
+			.and()
+			.csrf().disable();
 	}
 }

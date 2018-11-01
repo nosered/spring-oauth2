@@ -1,7 +1,10 @@
 package br.eti.esabreu.oauth2.authorizationserverjdbc.domain;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -39,6 +42,9 @@ public class User implements UserDetails {
 	@Column(name = "enabled")
 	private boolean enabled;
 	
+	@Column(name = "uuid")
+	private UUID uuid;
+	
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(
 			name = "user_authorities",
@@ -54,10 +60,32 @@ public class User implements UserDetails {
 	public void setId(Long id) {
 		this.id = id;
 	}
+	
+	public UUID getUuid() {
+		return uuid;
+	}
+	
+	public void setUuid(UUID uuid) {
+		this.uuid = uuid;
+	}
+	
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
+	}
+	
+	public void addAuthority(Authority authority) {
+		if(this.authorities == null)
+			this.authorities = new ArrayList<Authority>();
+		this.authorities.add(authority);
+	}
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return authorities;
+		return Collections.unmodifiableList(authorities);
 	}
 
 	@Override

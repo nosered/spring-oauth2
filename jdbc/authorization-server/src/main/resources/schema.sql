@@ -77,13 +77,14 @@ create table if not exists users (
   id IDENTITY PRIMARY KEY,
   username VARCHAR(255),
   password VARCHAR(255),
-  enabled BOOLEAN
+  enabled BOOLEAN,
+  uuid UUID UNIQUE
 );
 
 drop table if exists authorities;
 create table if not exists authorities (
   id IDENTITY PRIMARY KEY,
-  description VARCHAR(255)
+  authority VARCHAR(255)
 );
 
 drop table if exists user_authorities;

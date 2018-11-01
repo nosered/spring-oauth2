@@ -11,7 +11,7 @@ import javax.persistence.Table;
 
 import org.springframework.security.core.GrantedAuthority;
 
-import br.eti.esabreu.oauth2.authorizationserverjdbc.enums.AuthorityDescription;
+import br.eti.esabreu.oauth2.authorizationserverjdbc.enums.AuthorityEnum;
 
 @Entity
 @Table(name = "authorities")
@@ -24,9 +24,9 @@ public class Authority implements GrantedAuthority {
 	@Column(name = "id")
 	private Integer id;
 	
-	@Column(name = "description")
+	@Column(name = "authority")
 	@Enumerated(EnumType.STRING)
-	private AuthorityDescription description;
+	private AuthorityEnum authority;
 	
 	public Integer getId() {
 		return id;
@@ -35,14 +35,14 @@ public class Authority implements GrantedAuthority {
 	public void setId(Integer id) {
 		this.id = id;
 	}
-	
-	public AuthorityDescription getDescription() {
-		return description;
-	}
 
 	@Override
 	public String getAuthority() {
-		return description.toString();
+		return authority.toString();
+	}
+	
+	public void setAuthority(AuthorityEnum authority) {
+		this.authority = authority;
 	}
 
 	@Override
