@@ -17,6 +17,8 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.A
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
+import org.springframework.security.oauth2.provider.token.AccessTokenConverter;
+import org.springframework.security.oauth2.provider.token.DefaultAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore;
 
@@ -42,6 +44,10 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 		return new CustomTokenEnhancer();
 	}
 	
+	public AccessTokenConverter accessTokenConverter() {
+		return new DefaultAccessTokenConverter();
+	}
+	
 	@Override
 	public void configure(AuthorizationServerSecurityConfigurer serverSecurityConfig) {
 		serverSecurityConfig
@@ -59,12 +65,14 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 			.authorizedGrantTypes("password", "refresh_token")
 			.accessTokenValiditySeconds(86_400) // 1 DAY
 			.refreshTokenValiditySeconds(31_536_000) // 1 YEAR
+			.resourceIds("session")
 			.and()
 			.withClient(SIGN_SCOPE_CLIENT_ID)
 			.secret(SIGN_SCOPE_CLIENT_SECRET)
 			.scopes("sign")
 			.authorizedGrantTypes("password")
-			.accessTokenValiditySeconds(15); // 15 SECONDS
+			.accessTokenValiditySeconds(15) // 15 SECONDS
+			.resourceIds("sign");
 	}
 	
 	@Override
@@ -72,6 +80,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 		endpointsConfig
 			.tokenStore(tokenStore())
 			.tokenEnhancer(tokenEnhancer())
+			.accessTokenConverter(accessTokenConverter())
 			.authenticationManager(authenticationManager);
 	}
 }
