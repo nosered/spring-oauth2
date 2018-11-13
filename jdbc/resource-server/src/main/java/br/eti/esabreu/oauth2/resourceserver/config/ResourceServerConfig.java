@@ -7,8 +7,6 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.R
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
-import org.springframework.security.oauth2.provider.token.AccessTokenConverter;
-import org.springframework.security.oauth2.provider.token.DefaultAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.RemoteTokenServices;
 
 import static br.eti.esabreu.oauth2.resourceserver.constants.SecurityConstants.CHECK_TOKEN_ENDPOINT_URL;
@@ -24,11 +22,6 @@ import java.util.List;
 
 @Configuration
 public class ResourceServerConfig {
-	
-	@Bean
-	public AccessTokenConverter accessTokenConverter() {
-		return new DefaultAccessTokenConverter();
-	}
 	
 	@Bean
 	protected ResourceServerConfiguration sessionResourceServerConfig() {
@@ -55,7 +48,6 @@ public class ResourceServerConfig {
 				tokenService.setCheckTokenEndpointUrl(CHECK_TOKEN_ENDPOINT_URL);
 				tokenService.setClientId(SESSION_SCOPE_CLIENT_ID);
 				tokenService.setClientSecret(SESSION_SCOPE_CLIENT_SECRET);
-				tokenService.setAccessTokenConverter(accessTokenConverter());
 				return tokenService;
 			}
 
@@ -98,7 +90,6 @@ public class ResourceServerConfig {
 				tokenService.setCheckTokenEndpointUrl(CHECK_TOKEN_ENDPOINT_URL);
 				tokenService.setClientId(SIGN_SCOPE_CLIENT_ID);
 				tokenService.setClientSecret(SIGN_SCOPE_CLIENT_SECRET);
-				tokenService.setAccessTokenConverter(accessTokenConverter());
 				return tokenService;
 			}
 			

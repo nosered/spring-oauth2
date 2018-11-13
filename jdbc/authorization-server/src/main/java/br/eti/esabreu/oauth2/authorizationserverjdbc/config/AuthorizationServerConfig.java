@@ -17,9 +17,6 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.A
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
-import org.springframework.security.oauth2.provider.token.AccessTokenConverter;
-import org.springframework.security.oauth2.provider.token.DefaultAccessTokenConverter;
-import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore;
 
 @Configuration
@@ -37,15 +34,6 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 	@Bean
 	public JdbcTokenStore tokenStore() {
 		return new JdbcTokenStore(dataSource);
-	}
-	
-	@Bean
-	public TokenEnhancer tokenEnhancer() {
-		return new CustomTokenEnhancer();
-	}
-	
-	public AccessTokenConverter accessTokenConverter() {
-		return new DefaultAccessTokenConverter();
 	}
 	
 	@Override
@@ -79,8 +67,6 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 	public void configure(AuthorizationServerEndpointsConfigurer endpointsConfig) {
 		endpointsConfig
 			.tokenStore(tokenStore())
-			.tokenEnhancer(tokenEnhancer())
-			.accessTokenConverter(accessTokenConverter())
 			.authenticationManager(authenticationManager);
 	}
 }
