@@ -5,7 +5,7 @@
 
 	<groupId>br.eti.esabreu.oauth2</groupId>
 	<artifactId>authorization-server</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>jdbc-impl</version>
 	<packaging>jar</packaging>
 
 	<name>authorization-server</name>
